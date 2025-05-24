@@ -6,18 +6,25 @@ def download_meteoswiss_data(download_dir="data"):
     os.makedirs(download_dir, exist_ok=True)
 
     files_to_download = {
-        "ogd-smn_bas_d_recent.csv": "https://data.geo.admin.ch/ch.meteoschweiz.ogd-smn/bas/ogd-smn_bas_d_recent.csv",
-        "ogd-smn_meta_parameters.csv": "https://data.geo.admin.ch/ch.meteoschweiz.ogd-smn/ogd-smn_meta_parameters.csv"
+        "ogd-smn_bas_d_recent.csv": {
+            "url": "https://data.geo.admin.ch/ch.meteoschweiz.ogd-smn/bas/ogd-smn_bas_d_recent.csv",
+            "always_download": True
+        },
+        "ogd-smn_meta_parameters.csv": {
+            "url": "https://data.geo.admin.ch/ch.meteoschweiz.ogd-smn/ogd-smn_meta_parameters.csv",
+            "always_download": False
+        }
     }
 
-    for filename, url in files_to_download.items():
+    for filename, file_info in files_to_download.items():
         file_path = os.path.join(download_dir, filename)
-        
-        if not os.path.exists(file_path):
+        should_download = file_info["always_download"] or not os.path.exists(file_path)
+
+        if should_download:
             print(f"Downloading {filename}...")
             try:
-                response = requests.get(url)
-                response.raise_for_status()  # Raise an exception for HTTP errors
+                response = requests.get(file_info["url"])
+                response.raise_for_status()
                 with open(file_path, "wb") as f:
                     f.write(response.content)
                 print(f"Saved to {file_path}")
@@ -25,10 +32,6 @@ def download_meteoswiss_data(download_dir="data"):
                 print(f"Failed to download {filename}: {e}")
         else:
             print(f"{filename} already exists. Skipping download.")
-
-# Example usage
-download_meteoswiss_data()
-
 
 def extract_columns_from_bas_d_recent(csv_path):
     if not os.path.exists(csv_path):
@@ -47,10 +50,13 @@ def extract_columns_from_bas_d_recent(csv_path):
     extracted_df = df[cols]
     return extracted_df
 
+# Download meteoswiss data
+download_meteoswiss_data()
+
 # Example usage:
 file_path = "data/ogd-smn_bas_d_recent.csv"
 df_extracted = extract_columns_from_bas_d_recent(file_path)
-print(df_extracted.head())
+print(df_extracted.tail())
 
 # Save as json:
 json_path = "data/weather_data.json"
