@@ -1,14 +1,14 @@
 [
   {
-    "reference_timestamp":"06.06.2025 00:00",
-    "tre200d0":19.5
-  },
-  {
     "reference_timestamp":"07.06.2025 00:00",
     "tre200d0":16.7
   },
   {
     "reference_timestamp":"08.06.2025 00:00",
     "tre200d0":16.2
+  },
+  {
+    "reference_timestamp":"09.06.2025 00:00",
+    "tre200d0":15.9
   }
 ]
