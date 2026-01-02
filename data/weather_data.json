@@ -1,14 +1,14 @@
 [
   {
-    "reference_timestamp":"29.12.2025 00:00",
-    "tre200d0":-2.4
-  },
-  {
     "reference_timestamp":"30.12.2025 00:00",
     "tre200d0":-1.9
   },
   {
     "reference_timestamp":"31.12.2025 00:00",
     "tre200d0":-4.1
+  },
+  {
+    "reference_timestamp":"01.01.2026 00:00",
+    "tre200d0":-2.9
   }
 ]
